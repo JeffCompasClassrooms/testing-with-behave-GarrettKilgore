@@ -32,3 +32,9 @@ def step_no_element_by(context, locator_type, value):
     assert by, f'Unsupported locator type: {locator_type}'
     elements = context.behave_driver.find_elements(by, value)
     assert len(elements) == 0, f'Element with {locator_type} "{value}" was found.'
+
+@when('I scroll to the section containing "{text}"')
+def step_scroll_to_section(context, text):
+    element = context.behave_driver.find_element(By.XPATH, f"//*[contains(text(), '{text}')]")
+    context.behave_driver.execute_script("arguments[0].scrollIntoView(true);", element)
+
