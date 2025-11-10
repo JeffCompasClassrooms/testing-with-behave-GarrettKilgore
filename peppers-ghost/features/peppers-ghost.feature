@@ -102,3 +102,19 @@ Scenario: Scroll to the illusion setup section
   Then the page should contain the text "plexi"
   And the page should contain the text "angle"
   And the page should contain the text "secure"
+
+Scenario: Validate absence of unrelated elements
+  Given I open the instructables peppers ghost page
+  Then there should be no element with tag name "video"
+  And there should be no element with class name "ads-banner"
+  And the page should contain the text "illusion"
+  And the page should contain the text "viewer"
+  And the page should contain the text "phantom"
+
+Scenario: Scroll to and validate final step content
+  Given I open the instructables peppers ghost page
+  When I scroll to the section containing "Step 13: Enjoy"
+  Then the page should contain the text "Enjoy"
+  And the page should contain the text "illusion"
+  And the page should contain the text "viewer"
+  And the page should contain the text "phantom"

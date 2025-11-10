@@ -65,3 +65,9 @@ Feature: Explore the DownloadMoreRAM.com site
     And the page should contain the text "Download"
     And the page should contain the text "Instant"
 
+  Scenario: Validate favicon and branding elements
+    Given I go to "https://downloadmoreram.com/"
+    Then the title should contain "DownloadMoreRAM.com"
+    And there should be at least 1 element with tag name "link"
+    And the page should contain the text "Download"
+    And the page should contain the text "CloudRAM 2.0"
