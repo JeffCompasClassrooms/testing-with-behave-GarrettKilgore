@@ -21,7 +21,7 @@ jobs:
       - name: Install dependencies
         run: |
           pip install -r requirements.txt || true
-          pip install behave selenium behave-webdriver
+          pip install behave==1.2.6 behave-webdriver selenium
 
       - name: Install Chrome and chromedriver
         run: |
