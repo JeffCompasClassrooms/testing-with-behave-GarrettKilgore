@@ -4,13 +4,15 @@ on:
   push:
     branches:
       - main
+      # Optionally add a 'develop' branch here if needed
   workflow_dispatch: {}
 
 jobs:
   run-behave-tests:
     runs-on: ubuntu-latest
     env:
-      BEHAVE_DRIVER: chrome
+      # These env vars are good, though behave-webdriver might ignore them by default
+      BEHAVE_DRIVER: chrome 
       BEHAVE_HEADLESS: true
     steps:
       - name: Checkout repository
@@ -21,15 +23,17 @@ jobs:
         with:
           python-version: '3.10'
 
-      - name: Install dependencies
+      - name: Install dependencies (UPDATED)
         run: |
           pip install -r requirements.txt || true
-          pip install behave==1.2.6 behave-webdriver selenium
+          # Use the latest version of behave-webdriver and selenium for compatibility
+          pip install behave behave-webdriver selenium
 
-      - name: Install Chrome and chromedriver
+      - name: Install Chrome and chromedriver (REQUIRED for behave-webdriver)
         run: |
           sudo apt-get update
           sudo apt-get install -y chromium-browser chromium-chromedriver
+          # Create a symlink that behave-webdriver expects
           sudo ln -s /usr/bin/chromium-browser /usr/bin/google-chrome || true
           which chromium-browser
           which chromedriver
