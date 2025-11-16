@@ -1,4 +1,4 @@
-name: Behave/Pytest Tests CI
+name: Behave Systems Tests CI
 
 on:
   push:
@@ -7,8 +7,9 @@ on:
   workflow_dispatch: {}
 
 jobs:
-  run-tests:
+  run-behave-tests:
     runs-on: ubuntu-latest
+    # Environment variables are correctly placed
     env:
       BEHAVE_DRIVER: chrome
       BEHAVE_HEADLESS: true
@@ -21,29 +22,23 @@ jobs:
         with:
           python-version: '3.10'
 
-      - name: Install dependencies (Behave and Pytest)
+      - name: Install dependencies
         run: |
-          # Install from requirements.txt (if it exists)
           pip install -r requirements.txt || true
-          # Explicitly install testing dependencies
-          pip install behave==1.2.6 behave-webdriver selenium pytest
+          # Install Behave and Selenium dependencies
+          pip install behave==1.2.6 behave-webdriver selenium
 
-      - name: Install Chrome and chromedriver (for Behave Selenium tests)
+      - name: Install Chrome and chromedriver
         run: |
           sudo apt-get update
           sudo apt-get install -y chromium-browser chromium-chromedriver
-          # Symlink creation for compatibility if needed
+          # Symlink creation for compatibility
           sudo ln -s /usr/bin/chromium-browser /usr/bin/google-chrome || true
           which chromium-browser
           which chromedriver
 
-      - name: Run Pytest unit tests
+      - name: Run ALL Behave tests
         run: |
-          # This command will discover and run all your unit tests
-          pytest
-          # Optional: you can specify a specific directory if needed, e.g., pytest isitchristmas/
-
-      - name: Run Behave tests
-        run: |
-          # This command runs your BDD tests in the specified features directory
-          behave isitchristmas/features/
+          # This command runs Behave from the root of the repository
+          # It automatically discovers all directories named 'features'
+          behave
