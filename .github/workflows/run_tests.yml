@@ -36,4 +36,4 @@ jobs:
           BEHAVE_DRIVER: chrome
           BEHAVE_HEADLESS: true
         run: |
-          behave
+          behave isitchristmas/features/
