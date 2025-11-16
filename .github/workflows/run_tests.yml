@@ -9,7 +9,6 @@ on:
 jobs:
   run-behave-tests:
     runs-on: ubuntu-latest
-    # Environment variables are correctly placed
     env:
       BEHAVE_DRIVER: chrome
       BEHAVE_HEADLESS: true
@@ -25,20 +24,17 @@ jobs:
       - name: Install dependencies
         run: |
           pip install -r requirements.txt || true
-          # Install Behave and Selenium dependencies
           pip install behave==1.2.6 behave-webdriver selenium
 
       - name: Install Chrome and chromedriver
         run: |
           sudo apt-get update
           sudo apt-get install -y chromium-browser chromium-chromedriver
-          # Symlink creation for compatibility
           sudo ln -s /usr/bin/chromium-browser /usr/bin/google-chrome || true
           which chromium-browser
           which chromedriver
 
       - name: Run ALL Behave tests
         run: |
-          # This command runs Behave from the root of the repository
-          # It automatically discovers all directories named 'features'
-          behave
+          # Explicitly list the paths to all your feature directories
+          behave isitchristmas/features/ DownloadMoreRam/features/ Amazon/features/ peppers-ghost/features/
