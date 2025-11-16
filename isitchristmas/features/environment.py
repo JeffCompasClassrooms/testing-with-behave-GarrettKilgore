@@ -1,8 +1,7 @@
-from behave_webdriver.fixtures import fixture_browser
+import behave_webdriver
 
 def before_all(context):
-    fixture_browser(context)
+    context.behave_driver = behave_webdriver.Chrome()
 
 def after_all(context):
-    if hasattr(context, "behave_driver"):
-        context.behave_driver.quit()
+    context.behave_driver.quit()
