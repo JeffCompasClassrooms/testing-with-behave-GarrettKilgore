@@ -9,6 +9,9 @@ on:
 jobs:
   run-behave-tests:
     runs-on: ubuntu-latest
+    env:               # 👈 environment variables go here
+      BEHAVE_DRIVER: chrome
+      BEHAVE_HEADLESS: true
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -32,8 +35,5 @@ jobs:
           which chromedriver
 
       - name: Run Behave tests
-        env:
-          BEHAVE_DRIVER: chrome
-          BEHAVE_HEADLESS: true
         run: |
           behave isitchristmas/features/
