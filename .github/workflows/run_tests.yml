@@ -25,13 +25,13 @@ jobs:
       - name: Install dependencies (locked versions)
         run: |
           pip install -r requirements.txt || true
-          pip install behave==1.2.6 behave-webdriver==0.3.0 selenium==3.141.0
+          pip install behave==1.2.6 behave-webdriver==0.2.7 selenium==3.141.0
 
-      - name: Install Chrome and chromedriver
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y chromium-browser chromium-chromedriver
-          sudo ln -s /usr/bin/chromium-browser /usr/bin/google-chrome || true
+      - name: Install Chrome
+        uses: browser-actions/setup-chrome@latest
+
+      - name: Install chromedriver
+        uses: browser-actions/setup-chromedriver@latest
 
       - name: Debug environment
         run: |
