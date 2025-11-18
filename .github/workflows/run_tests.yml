@@ -24,7 +24,7 @@ jobs:
       - name: Install dependencies (locked versions)
         run: |
           pip install -r requirements.txt || true
-          pip install behave==1.2.6 behave-webdriver==0.3.1 selenium==4.9.1
+          pip install behave==1.2.6 behave-webdriver==0.3.1 selenium==3.141.0
 
       - name: Install Chrome and chromedriver
         run: |
