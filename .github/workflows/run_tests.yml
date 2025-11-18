@@ -12,7 +12,7 @@ jobs:
     env:
       BEHAVE_DRIVER: chrome
       BEHAVE_HEADLESS: true
-      BEHAVE_TIMEOUT: 10
+      BEHAVE_TIMEOUT: "10"
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
