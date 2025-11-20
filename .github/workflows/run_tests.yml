@@ -45,4 +45,4 @@ jobs:
           
       - name: Run ALL Behave tests
         run: |
-          behave isitchristmas/features/
+          behave isitchristmas/features/ DownloadMoreRam/features/
