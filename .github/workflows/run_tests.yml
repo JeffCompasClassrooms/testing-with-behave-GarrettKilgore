@@ -28,6 +28,7 @@ jobs:
       - name: Install Chrome and chromedriver
         run: |
           sudo apt-get update
+          # Install Chromium and its driver, which is compatible with your setup
           sudo apt-get install -y chromium-browser chromium-chromedriver
 
       - name: Debug environment
@@ -37,7 +38,4 @@ jobs:
 
       - name: Run ALL Behave tests
         run: |
-          behave isitchristmas/features/
-          behave DownloadMoreRam/features/
-          behave Amazon/features/
-          behave peppers-ghost/features/
+          behave isitchristmas/features/ DownloadMoreRam/features/ Amazon/features/ peppers-ghost/features/
