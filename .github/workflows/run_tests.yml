@@ -10,6 +10,7 @@ jobs:
   run-behave-tests:
     runs-on: ubuntu-latest
     env:
+      # These environment variables configure behave-webdriver
       BEHAVE_DRIVER: chrome
       BEHAVE_HEADLESS: true
     steps:
@@ -23,13 +24,13 @@ jobs:
 
       - name: Install dependencies (locked versions)
         run: |
-          pip install -r requirements.txt || true
+          pip install -r requirements.txt
           
       - name: Install Chrome and chromedriver
         run: |
           sudo apt-get update
+          # Install Chromium and its driver, which is compatible with your setup
           sudo apt-get install -y chromium-browser chromium-chromedriver
-          sudo ln -s /usr/bin/chromium-browser /usr/bin/google-chrome || true
 
       - name: Debug environment
         run: |
@@ -37,8 +38,7 @@ jobs:
           pip list | grep -E "behave|selenium|webdriver"
 
       - name: Run ALL Behave tests
+        # --- CRITICAL FIX: Run ALL features in ONE behave command ---
+        # List all the directories containing your .feature files
         run: |
-          behave -m isitchristmas/features/
-          behave -m DownloadMoreRam/features/
-          behave -m Amazon/features/
-          behave -m peppers-ghost/features/
+          behave isitchristmas/features/ DownloadMoreRam/features/ Amazon/features/ peppers-ghost/features/
