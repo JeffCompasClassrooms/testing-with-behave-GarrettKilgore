@@ -38,7 +38,7 @@ jobs:
 
       - name: Run ALL Behave tests
         run: |
-          behave -m isitchristmas/features/is_it_christmas.feature
+          behave -m isitchristmas/features/
           behave -m DownloadMoreRam/features/
           behave -m Amazon/features/
           behave -m peppers-ghost/features/
