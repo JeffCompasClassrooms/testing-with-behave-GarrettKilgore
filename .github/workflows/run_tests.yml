@@ -25,17 +25,24 @@ jobs:
         run: |
           pip install -r requirements.txt
           
-      - name: Install Chrome and chromedriver
+      # --- CRITICAL CHANGE: Install and ensure ChromeDriver is in PATH ---
+      - name: Install Chrome and chromedriver, and set PATH
         run: |
           sudo apt-get update
-          # Install Chromium and its driver, which is compatible with your setup
+          # Install Chromium and its driver
           sudo apt-get install -y chromium-browser chromium-chromedriver
+          
+          # Add the known driver path to the PATH environment variable
+          # This ensures Selenium 3.x can find the executable directly.
+          # The PATH is required by the current step only, so we export it.
+          echo "/usr/lib/chromium-browser" >> $GITHUB_PATH
 
-      - name: Debug environment
+      - name: Debug environment and check PATH
         run: |
           python --version
           pip list | grep -E "behave|selenium|webdriver"
-
+          echo "PATH is: $PATH" # Verify the new path is included
+          
       - name: Run ALL Behave tests
         run: |
           behave isitchristmas/features/ DownloadMoreRam/features/ Amazon/features/ peppers-ghost/features/
