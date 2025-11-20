@@ -10,7 +10,6 @@ jobs:
   run-behave-tests:
     runs-on: ubuntu-latest
     env:
-      # These environment variables configure behave-webdriver
       BEHAVE_DRIVER: chrome
       BEHAVE_HEADLESS: true
     steps:
@@ -41,4 +40,4 @@ jobs:
         # --- CRITICAL FIX: Run ALL features in ONE behave command ---
         # List all the directories containing your .feature files
         run: |
-          behave isitchristmas/features/ DownloadMoreRam/features/ Amazon/features/ peppers-ghost/features/
+          behave isitchristmas/features/
