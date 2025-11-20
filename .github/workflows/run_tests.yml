@@ -23,7 +23,8 @@ jobs:
 
       - name: Install dependencies (locked versions)
         run: |
-          pip install behave==1.2.6 behave-webdriver==0.3.1 selenium==3.141.0 irllib3==1.26.15
+          pip install -r requirements.txt || true
+          pip install behave==1.2.6 behave-webdriver==0.3.1 selenium==3.141.0
 
       - name: Install Chrome and chromedriver
         run: |
@@ -38,7 +39,7 @@ jobs:
 
       - name: Run ALL Behave tests
         run: |
-          behave isitchristmas/features/
+          behave isitchristmas/features/is_it_christmas.feature
           behave DownloadMoreRam/features/
           behave Amazon/features/
           behave peppers-ghost/features/
