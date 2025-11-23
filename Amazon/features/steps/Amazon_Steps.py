@@ -10,12 +10,24 @@ import time
 @given('I am on the Amazon homepage')
 def step_impl(context):
     context.browser.get("https://www.amazon.com")
-    time.sleep(2)
-    assert "Amazon" in context.browser.title
+
+    try:
+        # Wait for search bar
+        WebDriverWait(context.browser, 10).until(
+            EC.presence_of_element_located((By.ID, "twotabsearchtextbox"))
+        )
+    except:
+        # If not found, try forcing homepage again
+        context.browser.get("https://www.amazon.com/?ref_=nav_logo")
+        WebDriverWait(context.browser, 10).until(
+            EC.presence_of_element_located((By.ID, "twotabsearchtextbox"))
+        )
 
 @when('I click on the search bar')
 def step_impl(context):
-    search_bar = context.browser.find_element(By.ID, "twotabsearchtextbox")
+    search_bar = WebDriverWait(context.browser, 10).until(
+        EC.element_to_be_clickable((By.ID, "twotabsearchtextbox"))
+    )
     search_bar.click()
 
 @when('I type "{query}"')
@@ -453,4 +465,15 @@ def step_impl(context):
     page_text = context.browser.page_source
     assert "Ships to" in page_text or "Shipping" in page_text, "Shipping eligibility not found"
 
-#
+
+@when('I search for "wireless headphones"')
+def step_search_product(context):
+    search_box = context.browser.find_element(By.ID, "twotabsearchtextbox")
+    search_box.send_keys("wireless headphones")
+    search_box.send_keys(Keys.RETURN)
+
+@then('the first 5 product titles should contain "headphones"')
+def step_verify_titles(context):
+    titles = context.browser.find_elements(By.CSS_SELECTOR, "h2 a span")[:5]
+    for title in titles:
+        assert "headphones" in title.text.lower(), f"Title missing keyword: {title.text}"

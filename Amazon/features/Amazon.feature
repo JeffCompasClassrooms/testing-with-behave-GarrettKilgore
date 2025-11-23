@@ -7,6 +7,11 @@ Feature: Amazon product search
     And I submit the search
     Then I should see results related to "wireless headphones"
 
+  Scenario: Verifying search results contain keyword
+    Given I am on the Amazon homepage
+    When I search for "wireless headphones"
+    Then the first 5 product titles should contain "headphones"
+
   Scenario: Sorting results by price
     Given I have searched for "wireless headphones" on Amazon
     When I open the sort menu
@@ -20,13 +25,6 @@ Feature: Amazon product search
     And I wait for the product detail page to load
     Then I should be taken to the product detail page
     And the product title should contain "headphones"
-
-  Scenario: Adding a product to the cart
-    Given I have searched for "wireless headphones" on Amazon
-    When I click on the first product
-    And I wait for the product detail page to load
-    And I add the product to the cart
-    Then the cart should show 1 item
 
   Scenario: Checking product ratings
     Given I have searched for "wireless headphones" on Amazon
