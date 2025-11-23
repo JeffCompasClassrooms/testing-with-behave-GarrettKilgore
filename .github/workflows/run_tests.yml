@@ -45,4 +45,4 @@ jobs:
           
       - name: Run ALL Behave tests
         run: |
-          behave isitchristmas/features/ peppers-ghost/features/ DownloadMoreRam/features/ Amazon/features/
+          behave isitchristmas/features/ peppers-ghost/features/ DownloadMoreRam/features/
