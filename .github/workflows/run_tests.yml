@@ -1,0 +1,48 @@
+name: Behave Systems Tests CI
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch: {}
+
+jobs:
+  run-behave-tests:
+    runs-on: ubuntu-latest
+    env:
+      BEHAVE_DRIVER: chrome
+      BEHAVE_HEADLESS: true
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python (3.10.12)
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10.12'
+
+      - name: Install dependencies (locked versions)
+        run: |
+          pip install -r requirements.txt
+          
+      # --- CRITICAL CHANGE: Install and ensure ChromeDriver is in PATH ---
+      - name: Install Chrome and chromedriver, and set PATH
+        run: |
+          sudo apt-get update
+          # Install Chromium and its driver
+          sudo apt-get install -y chromium-browser chromium-chromedriver
+          
+          # Add the known driver path to the PATH environment variable
+          # This ensures Selenium 3.x can find the executable directly.
+          # The PATH is required by the current step only, so we export it.
+          echo "/usr/lib/chromium-browser" >> $GITHUB_PATH
+
+      - name: Debug environment and check PATH
+        run: |
+          python --version
+          pip list | grep -E "behave|selenium|webdriver"
+          echo "PATH is: $PATH" # Verify the new path is included
+          
+      - name: Run ALL Behave tests
+        run: |
+          behave isitchristmas/features/ peppers-ghost/features/ DownloadMoreRam/features/ Amazon/features/
