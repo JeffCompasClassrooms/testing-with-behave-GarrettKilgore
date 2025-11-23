@@ -1,10 +1,19 @@
 from behave import given, when, then
 from selenium.webdriver.common.by import By
 from behave_webdriver.steps import *
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 
-@given('I open the instructables peppers ghost page')
+@given("I open the instructables peppers ghost page")
 def step_open_page(context):
     context.browser.get("https://www.instructables.com/Peppers-Ghost-Illusion-in-a-Small-Space/")
+
+@when('I scroll to the section containing "{text}"')
+def step_scroll_to_section(context, text):
+    element = WebDriverWait(context.browser, 10).until(
+        EC.presence_of_element_located((By.XPATH, f"//*[contains(text(), '{text}')]"))
+    )
+    context.browser.execute_script("arguments[0].scrollIntoView(true);", element)
 
 @then('I expect that there is at least one picture there')
 def step_check_for_picture(context):
@@ -33,7 +42,7 @@ def step_no_element_by(context, locator_type, value):
     elements = context.browser.find_elements(by, value)
     assert len(elements) == 0, f'Element with {locator_type} "{value}" was found.'
 
-@when('I scroll to the section containing "{text}"')
-def step_scroll_to_section(context, text):
-    element = context.browser.find_element(By.XPATH, f"//*[contains(text(), '{text}')]")
-    context.browser.execute_script("arguments[0].scrollIntoView(true);", element)
+@then('there should be no element with attribute "{attr}" and value "{value}"')
+def step_no_element_with_attribute(context, attr, value):
+    elements = context.browser.find_elements(By.XPATH, f'//*[@{attr}="{value}"]')
+    assert len(elements) == 0, f'Element with {attr}="{value}" was found.'

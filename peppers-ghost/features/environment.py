@@ -1,12 +1,14 @@
+import os
 import behave_webdriver
 from behave_webdriver.steps import *
 
 def before_all(context):
-    # Create a headless Chrome driver
-    driver = behave_webdriver.Chrome.headless()
-    # Attach it under both names for compatibility
-    context.behave_driver = driver
+    if os.getenv("BEHAVE_HEADLESS", "true").lower() == "true":
+        driver = behave_webdriver.Chrome.headless()
+    else:
+        driver = behave_webdriver.Chrome()
     context.browser = driver
+    context.behave_driver = driver
 
 def after_all(context):
     context.browser.quit()
