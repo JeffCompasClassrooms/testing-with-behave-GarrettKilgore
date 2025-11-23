@@ -452,3 +452,5 @@ def step_impl(context):
 def step_impl(context):
     page_text = context.browser.page_source
     assert "Ships to" in page_text or "Shipping" in page_text, "Shipping eligibility not found"
+
+#

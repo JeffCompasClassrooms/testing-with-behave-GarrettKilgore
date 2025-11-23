@@ -37,3 +37,5 @@ def step_no_element_by(context, locator_type, value):
 def step_scroll_to_section(context, text):
     element = context.behave_driver.find_element(By.XPATH, f"//*[contains(text(), '{text}')]")
     context.behave_driver.execute_script("arguments[0].scrollIntoView(true);", element)
+
+#
